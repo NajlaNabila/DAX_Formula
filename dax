@@ -1,0 +1,47 @@
+## simple dax function in power bi ###
+
+1) 'Calculate' : First expression : calculation
+                 Second expression : where/filter
+For example : calculate (sum(data[submitted_leads]), data[sample_delivered_status] == "Yes")
+
+2) 'Filter' : to filter by first specifying the data
+For example : Filter(data, data[submitted_leads] == "No")
+
+3) 'Summarize' : to summarize the table by grouping it into product & region
+ For example : Summarize( data, data[product_category], data[region], "Total Sales", sum(data[amount]))
+
+4) 'Count' : count the data in the column without blanks
+For example : count(data[column])
+
+5) 'countrows' : count the rows in the data
+For example : countrows(data)
+
+6) 'distinctcount' : to count the distinct data in a category
+For example : distinctcount(data[column])
+
+7) combination of countrows and filter
+For example : 
+total_yes = countrows (
+              filter( data, data[column] = "yes') )
+
+8) Summarize ( Customer, 
+              Customer[Continent], 
+              "# customers", 
+              countrows(data), 
+              "# customers 1", 
+              countrows(distinct (data[region])), 
+              "# customers 2", 
+              distinctcount(data[region]))
+
+9) when you define first 
+
+DEFINE
+  MEASURE Customer[# Customer] = countrows(data)
+  Measure Customer[# Customer 1] = countrows(data[customer])
+  Measure Customer[# Customer 2] = distinctcount(data[region])
+EVALUATE
+SUMMARIZECOLUMNS ( Customer[Continent], "# Customers", [# Customer] , "# Customer 1", [# Customer 1], "# Customer 2", [# Customer 2] )
+
+
+10) 
+ 
