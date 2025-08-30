@@ -82,7 +82,11 @@ grandTotal% = [TotalScore]/ Calculate([TotalScore], ALL(mastertbl))
 
 table = filter(pizza_sales, related(pizza_name)= "Farmhouse")
 #related function gives you scalar value
+#related function for one to one
+#relatedtable function works with 1-1, 1-many, many-1, and many to many
 
+CROSSFILTER DAX
+calculate(countrows(pizza_name), crossfilter(data1[pizza_code], data2[pizza-code], both))
 
 
 
