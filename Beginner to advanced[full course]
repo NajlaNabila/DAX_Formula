@@ -1,0 +1,95 @@
+Calculated Column : for each row
+Calculated Measure : calculation on aggregated column
+
+ex measure : revdiscounted = sumx(data , (data[price]*data[sales]) *0.15)
+
+implicit vs explicit measure
+implicit : when you put inside the visualization
+exlicit : entering custom formula
+
+Date & Time DAX
+Calendar Table using DAX
+table = calendar("1/1/2022", today()) # to make it dynamic today()
+table = calendarauto() #to generate the date inside the date column
+column = date(year, month, day)
+colu = date(year, month, 1) 
+column = datediff(data[col], data[col], hour)
+column = datevalue(data[day] & "/" & data[month] & "/" data[year])
+
+now()
+edate(data[date], -1) # to minus or add 1 month/s to column date
+eomonth(data[column], 0) #last day of 0=current
+eomonth(data[column],0)+1 #first day of next month
+networkdays(start, end, weekends=1, holidays)
+weekday(data[date], 1) #to display the week day ex: sunday =1, monday=2
+
+Aggregate DAX
+measure = sum(data[column])
+count(data[col])
+average(data[col])
+counta(data[col])
+
+List of x aggregate functions
+sumx, countx, countax, averagex, minx, maxx, productx
+sumx(data, price*sales)
+averagex(data, sales-unsold)
+
+distinct function
+measure= distinctc0unt(pizza) #count blank as well
+distinctcountnoblank(pizza)
+
+logical dax
+column = if([sales] > 100, 
+            "Top Seller",
+            "Average Seller" )
+
+column = iferror(column2, 0)
+
+AND(logical1 = "deluxe", logical2="non-veg") #the output is true or falsse
+or(logical1, logical2)
+
+if(and(price>10, sales="top seller"), "star", "budget)
+if(sales>10 && sales="top seller && unsold<10, "star", "budget")
+if(sales>10 || sales="top seller || unsold<10, "star", "budget")
+if((sales>10 || sales="top seller) && unsold<10, "star", "budget")
+
+text function
+upper(pizza_name)
+lower(pizza_name)
+concatenate(pizza_code, pizza_name) # only for two text
+pizza_code & "-" pizza_name & " " category
+
+column = len(pizza_name) #gives the length of pizza name
+column = left(pizza_name, 4) #return first 4 pizza_name
+right(pizza_name, 4) #return last 4 pizza_name
+mid(pizza_name,2,3) #count the character to 2 and take 3 characters only
+replace(pizza_name,1,4,"City") #replace the first 4 character with city
+replace(pizza_name,1,8,"City") replace the first 8 character with city
+
+substitute(pizza_name, "ou", "an", 1) #seach for ou and replace with an at the first instance
+substitute(pizza_name, "e", "a", 2) #replace the second e
+search("x", pizza_name,1,0) #serach for x and return where its located
+
+Filter Function
+using calculate & all together
+
+calculate(sum(data[score]) + sum(data[score2]) , data[name]="b", second filter)
+#cannot directly filter the measure.
+calculate(sum(data[score]) + sum(data[score2]), filter(data, data[name] ="b" && data[subjects]=[Measure])
+
+grandTotal = Calculate([TotalScore], ALL(mastertbl)) #gives the total amount of total score
+grandTotal% = [TotalScore]/ Calculate([TotalScore], ALL(mastertbl))
+
+table = filter(pizza_sales, related(pizza_name)= "Farmhouse")
+#related function gives you scalar value
+
+
+
+
+
+
+
+
+
+
+
